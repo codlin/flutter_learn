@@ -70,47 +70,66 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               //
               Text(
-                '1. 容器没有约束且父组件也没有约束(即使指定了alignment)，则容器大小为尽可能小，因此在屏幕不显示',
+                '容器行为：',
+              ),
+              //
+              Text(
+                '1. 容器无child、无长高和约束（即使指定了alignment），且父组件提供了unbounded约束(即最大宽或高是无限)，则容器大小为尽可能小，因此在屏幕不显示',
               ),
               NoConstraintsContainerDemo(),
 
               //
               Text(
-                '2. 容器的父组件指定了约束，容器无child且指定了宽、高或者constraints约束，则子容器会根据这些约束尽可能的小 ???',
+                '2. 容器无child和alignment，但指定了宽、高或者constraints约束，则它会在这些约束和父约束之间尝试尽量小 ??? ->实际验证不是这样',
               ),
               ContainerCombinationConstraintsDemo(),
 
               //
               Text(
-                '2. 一个长高分别为100的容器，容器对齐方式为topRight',
+                '3. 容器无child，也没有指定长高、约束和alignment，但父组件提供了bounded约束，则容器会尽可能的大去填满父组件',
+              ),
+              ContainerInContainerDemo(),
+
+              //
+              Text(
+                '4. 容器（黄色）指定了alignment，并且父组件提供了unbounded约束，则它会尝试包围子组件，使自己的大小为子组件的大小',
+              ),
+              ContainerWithAlignmentAndChildDemo(),
+
+              //
+              Text(
+                '5. 容器(青色)指定了alignment，并且父组件提供了bounded约束，则它会尝试扩展来适应父组件，然后按照指定的alignment使子组件对齐',
+              ),
+              ContainerWithAlignmentAndChildAndParentBoundedConstraintsDemo(),
+
+              //
+              Text(
+                '6. 容器（黄色）有child，但没有指定长高、alignment和约束，则容器会将其父组件的约束传递给child（child组件受此约束），并且使自己的大小等于子组件的大小',
+              ),
+              ContainerPassConstraintsFromParentToChildDemo(),
+
+              //
+              Text(
+                '其它一些例子：',
+              ),
+              Text(
+                'A. 一个长高分别为100的容器，容器对齐方式为topRight',
               ),
               TopLeftContainerDemo(),
               //
               Text(
-                '仅指定了高度的容器',
+                '容器（黄色）仅指定了高度，其父组件的宽度是unbounded约束，因此它的宽度尽可能大',
               ),
               NormalContainerDemo(),
 
               //
               Text(
-                '3. 容器有Child且仅指定了高度，没有指定alignment，则容器的宽度由child的宽度决定',
+                'B. 容器仅指定了高度且有Child，没有指定alignment，则容器的宽度由child的宽度决定',
               ),
               ContainerWithChildDemo(),
 
               //
-              Text(
-                '4. 容器有Child且无约束，仅指定了alignment，则它会包围子组件的大小',
-              ),
-              ContainerWithAlignmentAndChildDemo(),
-
-              //
               ContainerWithHeightAlignmentAndChildDemo(),
-
-              //
-              Text(
-                '6. 父组件指定了约束，它的child是容器且没有指定约束，则子容器会尽可能的大去填满父组件',
-              ),
-              ContainerInContainerDemo(),
             ],
           ),
         ],

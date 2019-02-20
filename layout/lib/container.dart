@@ -21,8 +21,13 @@ class NormalContainerDemo extends StatelessWidget {
     /// 如果不指定约束且父组件也没有约束，则容器近可能小
     /// 当前容器指定了高度为100，宽度不指定，则容器默认为当前设备宽度
     return Container(
-      height: 100,
+      constraints: BoxConstraints(),
       color: Colors.red,
+      padding: EdgeInsets.all(5),
+      child: Container(
+        height: 100,
+        color: Colors.yellow,
+      ),
     );
   }
 }
@@ -61,14 +66,57 @@ class ContainerWithAlignmentAndChildDemo extends StatelessWidget {
     /// If the widget has an alignment, and the parent provides unbounded constraints,
     /// then the Container tries to size itself around the child.
     return Container(
-      alignment: Alignment.center,
-      constraints: BoxConstraints.lerp(BoxConstraints.tight(Size(100, 100)),
-          BoxConstraints.tight(Size(200, 200)), 5),
       color: Colors.cyan,
-      child: Card(
-        child: Text('我很小'),
+      constraints: BoxConstraints(),
+      child: Container(
+        color: Colors.yellow,
+        alignment: Alignment.centerLeft,
+        margin: EdgeInsets.all(5),
+        child: Card(child: Text('我是子组件，我很小')),
       ),
     );
+  }
+}
+
+class ContainerWithAlignmentAndChildAndParentBoundedConstraintsDemo
+    extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    /// 父组件无约束，容器指定了alignment， 则它会包围子组件的大小
+    /// If the widget has an alignment, and the parent provides unbounded constraints,
+    /// then the Container tries to size itself around the child.
+    return Container(
+      color: Colors.yellow,
+        constraints: BoxConstraints(
+            minHeight: 50, maxHeight: 100, minWidth: 50, maxWidth: 100),
+        padding: EdgeInsets.all(5),
+        child: Container(
+          alignment: Alignment.center,
+          color: Colors.cyan,
+          child: Card(
+            child: Text('我也很小'),
+          ),
+        ));
+  }
+}
+
+class ContainerPassConstraintsFromParentToChildDemo
+    extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    /// Otherwise, the widget has a child but no height, no width, no constraints, and no alignment, 
+    /// and the Container passes the constraints from the parent to the child and sizes itself to match the child
+    return Container(
+      color: Colors.pink,
+        width: 100,
+        height: 100,
+        padding: EdgeInsets.all(5),
+        child: Container(
+          color: Colors.yellow,
+          child: Card(
+            child: Text('我收到父约束的影响，填充为5面积尽量大'),
+          ),
+        ));
   }
 }
 
@@ -114,15 +162,17 @@ class ContainerCombinationConstraintsDemo extends StatelessWidget {
     /// then the Container tries to be as small as possible
     /// given the combination of those constraints and the parent's constraints.
     return Container(
-      width: 100,
-      height: 100,
-      color: Colors.blue,
+      width: 200,
+      height: 200,
+      constraints: BoxConstraints.tightFor(width: double.infinity, height: 150),
       padding: EdgeInsets.all(5),
+      color: Colors.blue,
       child: Container(
-        color: Colors.pink,
-        width: 150,
-        height: 150,
-        constraints: BoxConstraints.tight(Size(50, 50)),
+        color: Colors.yellow,
+        width: 80,
+        height: 80,
+        constraints: BoxConstraints(
+            minHeight: 50, maxHeight: 100, minWidth: 50, maxWidth: 100),
       ),
     );
   }
