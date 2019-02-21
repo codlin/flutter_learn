@@ -86,7 +86,7 @@ class ContainerWithAlignmentAndChildAndParentBoundedConstraintsDemo
     /// If the widget has an alignment, and the parent provides unbounded constraints,
     /// then the Container tries to size itself around the child.
     return Container(
-      color: Colors.yellow,
+        color: Colors.yellow,
         constraints: BoxConstraints(
             minHeight: 50, maxHeight: 100, minWidth: 50, maxWidth: 100),
         padding: EdgeInsets.all(5),
@@ -100,14 +100,13 @@ class ContainerWithAlignmentAndChildAndParentBoundedConstraintsDemo
   }
 }
 
-class ContainerPassConstraintsFromParentToChildDemo
-    extends StatelessWidget {
+class ContainerPassConstraintsFromParentToChildDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    /// Otherwise, the widget has a child but no height, no width, no constraints, and no alignment, 
+    /// Otherwise, the widget has a child but no height, no width, no constraints, and no alignment,
     /// and the Container passes the constraints from the parent to the child and sizes itself to match the child
     return Container(
-      color: Colors.pink,
+        color: Colors.pink,
         width: 100,
         height: 100,
         padding: EdgeInsets.all(5),
@@ -175,5 +174,90 @@ class ContainerCombinationConstraintsDemo extends StatelessWidget {
             minHeight: 50, maxHeight: 100, minWidth: 50, maxWidth: 100),
       ),
     );
+  }
+}
+
+class ContainerDemoPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text('容器演示'),
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(5),
+          child: Column(
+            // 列模式下主轴为Y轴，默认对对齐在start，X轴对齐在中间
+            mainAxisAlignment: MainAxisAlignment.start,
+            // 指定纵轴按开始对齐
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              //
+              Text(
+                '容器行为：',
+              ),
+              //
+              Text(
+                '1. 容器无child、宽、高和约束（注：可以有alignment），但父组件提供了unbounded约束(即最大宽或高是无限)，则容器大小为尽可能小，因此在屏幕不显示',
+              ),
+              NoConstraintsContainerDemo(),
+
+              //
+              Text(
+                '2. 容器无child和alignment，但指定了宽、高或者约束，则它会在这些约束和父约束之间尝试尽量小 ??? ->实际验证不是这样',
+              ),
+              ContainerCombinationConstraintsDemo(),
+
+              //
+              Text(
+                '3. 容器无child，长、高、约束和alignment，但父组件提供了bounded约束，则容器会尽可能的大去填满父组件',
+              ),
+              ContainerInContainerDemo(),
+
+              //
+              Text(
+                '4. 容器（黄色）指定了alignment，并且父组件提供了unbounded约束，则它会尝试包围子组件，使自己的大小为子组件的大小',
+              ),
+              ContainerWithAlignmentAndChildDemo(),
+
+              //
+              Text(
+                '5. 容器(青色)指定了alignment，并且父组件提供了bounded约束，则它会尝试扩展来适应父组件，然后按照指定的alignment使子组件对齐',
+              ),
+              ContainerWithAlignmentAndChildAndParentBoundedConstraintsDemo(),
+
+              //
+              Text(
+                '6. 容器（黄色）有child，但没有指定长高、alignment和约束，则容器会将其父组件的约束传递给child（child组件受此约束），并且使自己的大小等于子组件的大小',
+              ),
+              ContainerPassConstraintsFromParentToChildDemo(),
+
+              //
+              Text(
+                '其它一些例子：',
+              ),
+              Text(
+                'A. 一个长高分别为100的容器，容器对齐方式为topRight',
+              ),
+              TopLeftContainerDemo(),
+              //
+              Text(
+                '容器（黄色）仅指定了高度，其父组件的宽度是unbounded约束，因此它的宽度尽可能大',
+              ),
+              NormalContainerDemo(),
+
+              //
+              Text(
+                'B. 容器仅指定了高度且有Child，没有指定alignment，则容器的宽度由child的宽度决定',
+              ),
+              ContainerWithChildDemo(),
+
+              //
+              ContainerWithHeightAlignmentAndChildDemo(),
+            ],
+          ),
+        ));
   }
 }
