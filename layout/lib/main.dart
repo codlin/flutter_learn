@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'container.dart';
 import 'center.dart';
+import 'transform.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Layout Demo'),
     );
   }
 }
@@ -77,6 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () => Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
                     return CenterWidgetDemoPage();
+                  })),
+            ),
+            ListTile(
+              title: Text('Transform组件演示'),
+              trailing: Icon(Icons.keyboard_arrow_right),
+              onTap: () => Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return TransformDemoPage();
                   })),
             ),
           ],
