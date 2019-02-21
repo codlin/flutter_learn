@@ -74,19 +74,19 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               //
               Text(
-                '1. 容器无child、无长高和约束（即使指定了alignment），且父组件提供了unbounded约束(即最大宽或高是无限)，则容器大小为尽可能小，因此在屏幕不显示',
+                '1. 容器无child、宽、高和约束（注：可以有alignment），但父组件提供了unbounded约束(即最大宽或高是无限)，则容器大小为尽可能小，因此在屏幕不显示',
               ),
               NoConstraintsContainerDemo(),
 
               //
               Text(
-                '2. 容器无child和alignment，但指定了宽、高或者constraints约束，则它会在这些约束和父约束之间尝试尽量小 ??? ->实际验证不是这样',
+                '2. 容器无child和alignment，但指定了宽、高或者约束，则它会在这些约束和父约束之间尝试尽量小 ??? ->实际验证不是这样',
               ),
               ContainerCombinationConstraintsDemo(),
 
               //
               Text(
-                '3. 容器无child，也没有指定长高、约束和alignment，但父组件提供了bounded约束，则容器会尽可能的大去填满父组件',
+                '3. 容器无child，长、高、约束和alignment，但父组件提供了bounded约束，则容器会尽可能的大去填满父组件',
               ),
               ContainerInContainerDemo(),
 
